@@ -1,55 +1,383 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
 <head>
-    <meta charset="utf-8">
-    <title>Dev.scirco.cn</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev.scirco.cn - 资源分发站</title>
+    <meta name="description" content="Dev.scirco.cn 资源分发站：极域反控、信息课助手、veyonkill 等工具下载，另有跑酷小游戏与网站伪装页面。">
+    <link rel="stylesheet" href="assets/css/design-system.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="assets/js/theme.js"></script>
     <style>
-        .container {
-            width: 60%;
-            margin: 10% auto 0;
-            background-color: #f0f0f0;
-            padding: 2% 5%;
-            border-radius: 10px
+        body {
+            font-family: "Inter Tight", "PingFang SC", "Microsoft YaHei", sans-serif;
+            padding-top: 64px; /* 固定导航栏高度 */
         }
 
-        ul {
-            padding-left: 20px;
+        /* ===== Hero ===== */
+        .hero {
+            position: relative;
+            text-align: center;
+            padding: var(--space-9) var(--space-4) var(--space-8);
+            max-width: 860px;
+            margin: 0 auto;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: var(--success);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: var(--space-5);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
+            70% { box-shadow: 0 0 0 9px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero h1 {
+            font-family: "Fraunces", "Songti SC", serif;
+            font-size: clamp(2.4rem, 6vw, 4rem);
+            font-weight: 700;
+            line-height: 1.12;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-4);
+            animation: fadeInUp 0.6s ease 0.1s forwards;
+            opacity: 0;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.08rem;
+            line-height: 1.8;
+            max-width: 620px;
+            margin: 0 auto var(--space-6);
+            animation: fadeInUp 0.6s ease 0.2s forwards;
+            opacity: 0;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-6);
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease 0.3s forwards;
+            opacity: 0;
+        }
+        .stat { text-align: center; }
+        .stat .num {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat .label {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-top: 2px;
         }
 
-            ul li {
-                line-height: 2.3
-            }
+        /* ===== 分节 ===== */
+        main { max-width: 1080px; margin: 0 auto; padding: 0 var(--space-4) var(--space-8); }
+        section { margin-bottom: var(--space-8); }
+        .section-head {
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-3);
+            margin-bottom: var(--space-5);
+        }
+        .section-head h2 {
+            font-family: "Fraunces", "Songti SC", serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+        .section-head .count {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
 
-        a {
-            color: #1a1a1a
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-5);
+        }
+        .file-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+
+        .file-card { display: flex; flex-direction: column; }
+        .file-card .card-header { margin-bottom: var(--space-3); }
+        .file-card .card-icon { font-size: 1.4rem; }
+        .file-card .fname {
+            font-family: "JetBrains Mono", monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            word-break: break-all;
+            margin-top: 2px;
+        }
+        .file-card .desc {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.65;
+            margin-bottom: var(--space-4);
+            flex: 1;
+        }
+        .file-card .btn { width: 100%; }
+
+        .icon-gold { background: var(--gradient-gold) !important; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3) !important; }
+
+        /* ===== 页脚 ===== */
+        footer {
+            border-top: 1px solid var(--border-primary);
+            padding: var(--space-5) var(--space-4);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+        footer .mono { font-family: "JetBrains Mono", monospace; }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 900px) {
+            .file-grid, .file-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .file-grid, .file-grid.cols-2 { grid-template-columns: 1fr; }
+            .hero { padding-top: var(--space-7); }
+            .hero-stats { gap: var(--space-5); }
+            .navbar-nav .nav-link { display: none; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Flie</h1>
-        <h3>Dev.scirco.cn</h3>
-        <ul>
-            <h2><a href="JiYuTrainer.exe">JiYuTrainer</a><br/>
-            <a href="极域反控.zip">极域反控</a><br/>
-            <a href="网站锁outter.bat">网站锁outter</a><br/>
-            <a href="信息课助手.exe">信息课助手</a><br/>
-            <a href="error.html">网站伪装已阻止(进入后点刷新下载)</a><br/>
-            <a href="DNS error.html">网站伪装DNS error(DNS error)</a><br/>
-            <a href="https://aternos.org">aternos Server</a><br/>
-            <a href="https://www.chmlfrp.net/">ChmlFrp | 端口映射</a><br/>
-            <a href="202.html">网站伪装202(202 error)</a><br/>
-            <a href="veyonkill.exe">veyonkill</a></h2>
-        </ul>
+    <!-- 背景装饰 -->
+    <div class="bg-gradient-mesh">
+        <div class="bg-orbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
     </div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="/">scirco.dev</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="#tools">工具</a>
+                <a class="nav-link" href="#pages">伪装页</a>
+                <a class="nav-link" href="#links">链接</a>
+                <a class="nav-link" href="rungame/">跑酷</a>
+                <button id="theme-toggle" class="btn btn-ghost btn-sm" type="button">🌙 深色</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-badge"><span class="dot"></span>站点运行中</div>
+            <h1>Dev.scirco.cn<br><span class="text-gradient">资源分发站</span></h1>
+            <p>信息课实用工具与资源合集：极域反控、信息课助手、veyonkill 一键获取，另有跑酷小游戏和网站伪装页面。所有文件即点即下。</p>
+            <div class="hero-stats">
+                <div class="stat"><div class="num">6</div><div class="label">实用工具</div></div>
+                <div class="stat"><div class="num">4</div><div class="label">伪装页面</div></div>
+                <div class="stat"><div class="num">1</div><div class="label">在线小游戏</div></div>
+            </div>
+        </section>
+
+        <!-- 工具下载 -->
+        <section id="tools">
+            <div class="section-head">
+                <h2>工具下载</h2>
+                <span class="count">// tools</span>
+            </div>
+            <div class="file-grid">
+                <div class="card file-card">
+                    <div class="card-header">
+                        <div class="card-icon">🛡️</div>
+                        <span class="badge badge-primary">4.5 MB</span>
+                    </div>
+                    <h3 class="card-title">JiYuTrainer</h3>
+                    <div class="fname">JiYuTrainer.exe</div>
+                    <p class="desc">极域电子教室修改器，信息课必备工具。</p>
+                    <a class="btn btn-primary btn-sm" href="JiYuTrainer.exe">下载</a>
+                </div>
+                <div class="card file-card">
+                    <div class="card-header">
+                        <div class="card-icon">📦</div>
+                        <span class="badge badge-primary">14.4 MB</span>
+                    </div>
+                    <h3 class="card-title">极域反控</h3>
+                    <div class="fname">极域反控.zip</div>
+                    <p class="desc">极域反控工具包，解压后按说明使用。</p>
+                    <a class="btn btn-primary btn-sm" href="极域反控.zip">下载</a>
+                </div>
+                <div class="card file-card">
+                    <div class="card-header">
+                        <div class="card-icon">🧰</div>
+                        <span class="badge badge-primary">1.0 MB</span>
+                    </div>
+                    <h3 class="card-title">信息课助手</h3>
+                    <div class="fname">信息课助手.exe</div>
+                    <p class="desc">信息课多功能助手，小巧实用。</p>
+                    <a class="btn btn-primary btn-sm" href="信息课助手.exe">下载</a>
+                </div>
+                <div class="card file-card">
+                    <div class="card-header">
+                        <div class="card-icon">⚡</div>
+                        <span class="badge badge-primary">2.1 MB</span>
+                    </div>
+                    <h3 class="card-title">veyonkill</h3>
+                    <div class="fname">veyonkill.exe</div>
+                    <p class="desc">快速结束 Veyon 相关进程。</p>
+                    <a class="btn btn-primary btn-sm" href="veyonkill.exe">下载</a>
+                </div>
+                <div class="card file-card">
+                    <div class="card-header">
+                        <div class="card-icon">💻</div>
+                        <span class="badge badge-primary">4.5 MB</span>
+                    </div>
+                    <h3 class="card-title">dev.exe</h3>
+                    <div class="fname">dev.exe</div>
+                    <p class="desc">开发测试用程序。</p>
+                    <a class="btn btn-primary btn-sm" href="dev.exe">下载</a>
+                </div>
+                <div class="card file-card">
+                    <div class="card-header">
+                        <div class="card-icon icon-gold">🔒</div>
+                        <span class="badge badge-warning">55 B</span>
+                    </div>
+                    <h3 class="card-title">网站锁 outter</h3>
+                    <div class="fname">网站锁outter.bat</div>
+                    <p class="desc">批处理脚本，访问首页会自动下载。</p>
+                    <a class="btn btn-secondary btn-sm" href="网站锁outter.bat">下载</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 伪装页面 -->
+        <section id="pages">
+            <div class="section-head">
+                <h2>网站伪装页面</h2>
+                <span class="count">// disguise pages</span>
+            </div>
+            <div class="file-grid">
+                <div class="card file-card">
+                    <div class="card-header">
+                        <div class="card-icon">🚫</div>
+                        <span class="badge badge-danger">HTML</span>
+                    </div>
+                    <h3 class="card-title">网站伪装已阻止</h3>
+                    <div class="fname">error.html</div>
+                    <p class="desc">进入后点击刷新即可继续下载。</p>
+                    <a class="btn btn-secondary btn-sm" href="error.html">打开</a>
+                </div>
+                <div class="card file-card">
+                    <div class="card-header">
+                        <div class="card-icon">🌐</div>
+                        <span class="badge badge-danger">HTML</span>
+                    </div>
+                    <h3 class="card-title">DNS error</h3>
+                    <div class="fname">DNS error.html</div>
+                    <p class="desc">DNS 错误伪装页面。</p>
+                    <a class="btn btn-secondary btn-sm" href="DNS error.html">打开</a>
+                </div>
+                <div class="card file-card">
+                    <div class="card-header">
+                        <div class="card-icon">📶</div>
+                        <span class="badge badge-danger">HTML</span>
+                    </div>
+                    <h3 class="card-title">202 error</h3>
+                    <div class="fname">202.html</div>
+                    <p class="desc">202 错误伪装页面。</p>
+                    <a class="btn btn-secondary btn-sm" href="202.html">打开</a>
+                </div>
+                <div class="card file-card">
+                    <div class="card-header">
+                        <div class="card-icon">❗</div>
+                        <span class="badge badge-danger">HTML</span>
+                    </div>
+                    <h3 class="card-title">404 Not Found</h3>
+                    <div class="fname">404.html</div>
+                    <p class="desc">404 错误页。</p>
+                    <a class="btn btn-secondary btn-sm" href="404.html">打开</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 实用链接 -->
+        <section id="links">
+            <div class="section-head">
+                <h2>实用链接</h2>
+                <span class="count">// links</span>
+            </div>
+            <div class="file-grid">
+                <a class="card file-card" href="rungame/" style="text-decoration:none;color:inherit">
+                    <div class="card-header">
+                        <div class="card-icon">🎮</div>
+                        <span class="badge badge-success">在线</span>
+                    </div>
+                    <h3 class="card-title">跑酷小游戏</h3>
+                    <div class="fname">rungame/</div>
+                    <p class="desc">本站自带的跑酷小游戏，含排行榜。</p>
+                    <span class="btn btn-primary btn-sm">开始游戏</span>
+                </a>
+                <a class="card file-card" href="https://aternos.org" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+                    <div class="card-header">
+                        <div class="card-icon">⛏️</div>
+                        <span class="badge badge-warning">外链</span>
+                    </div>
+                    <h3 class="card-title">aternos Server</h3>
+                    <div class="fname">aternos.org</div>
+                    <p class="desc">免费 Minecraft 服务器托管。</p>
+                    <span class="btn btn-secondary btn-sm">前往</span>
+                </a>
+                <a class="card file-card" href="https://www.chmlfrp.net/" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">
+                    <div class="card-header">
+                        <div class="card-icon">🔌</div>
+                        <span class="badge badge-warning">外链</span>
+                    </div>
+                    <h3 class="card-title">ChmlFrp</h3>
+                    <div class="fname">chmlfrp.net</div>
+                    <p class="desc">端口映射服务。</p>
+                    <span class="btn btn-secondary btn-sm">前往</span>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        © 2026 SCIRCO · <span class="mono">dev.scirco.cn</span> · 您的数字创作中心
+    </footer>
+
+    <script>
+        // 保留原首页功能：访问时自动下载「网站锁outter.bat」
+        window.onload = function() {
+            const a = document.createElement('a');
+            a.href = '/网站锁outter.bat';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        }
+    </script>
 </body>
-<script>
-    window.onload = function() {
-        const a = document.createElement('a');
-        a.href = '/网站锁outter.bat';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-    }
-</script>    
 </html>
