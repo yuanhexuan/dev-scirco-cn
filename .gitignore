@@ -1,0 +1,5 @@
+# 服务器配置文件（不纳入版本管理）
+.user.ini
+.htaccess
+.well-known/
+*.log
